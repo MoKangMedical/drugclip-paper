@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — DrugCLIP | Contrastive Learning for Virtual Drug Screening</title>
+<meta name="description" content="Learn about DrugCLIP: a contrastive learning framework for virtual drug screening achieving state-of-the-art performance on molecular property prediction benchmarks.">
+<link rel="stylesheet" href="https://mokangmedical.github.io/opc-homepage/shared-design-system.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💊</text></svg>">
+</head>
+<body>
+<nav class="eco-nav">
+<a class="nav-brand" href="https://mokangmedical.github.io/opc-homepage/">drugclip-paper</a>
+<div class="nav-links">
+<a href="index.html">Home</a>
+<a href="about.html">About</a>
+<a href="https://github.com/drugclip-paper/drugclip-paper">GitHub</a>
+<a href="https://mokangmedical.github.io/opc-homepage/">Ecosystem</a>
+</div>
+</nav>
+
+<section class="hero">
+<div class="badge">💊 AI for Drug Discovery</div>
+<h1>About DrugCLIP</h1>
+<p class="subtitle">A novel contrastive learning framework that aligns molecular and protein representations for accelerated virtual drug screening, achieving state-of-the-art performance across 14 benchmark datasets.</p>
+</section>
+
+<section class="section">
+<h2 class="section-title">Our Mission</h2>
+<p class="section-desc">Accelerate drug discovery by replacing expensive, slow molecular docking with fast, accurate AI-driven virtual screening.</p>
+<div class="card-grid">
+<div class="card fade-up">
+<div class="card-icon">🎯</div>
+<h3>Mission Statement</h3>
+<p>Traditional virtual screening through molecular docking is computationally expensive and time-consuming, limiting the number of compounds researchers can evaluate. DrugCLIP brings contrastive learning — the same paradigm behind CLIP for images and text — to molecular biology, enabling rapid screening of billions of compounds at a fraction of the cost.</p>
+</div>
+<div class="card fade-up">
+<div class="card-icon">🔭</div>
+<h3>Vision</h3>
+<p>A drug discovery pipeline where AI can screen the entire chemical space (~10^60 drug-like molecules) in hours rather than years, identifying promising candidates for any protein target — including novel targets with no known ligands — through zero-shot transfer learning.</p>
+</div>
+<div class="card fade-up">
+<div class="card-icon">💡</div>
+<h3>Approach</h3>
+<p>DrugCLIP jointly trains molecular encoders (SMILES-based and graph-based) and protein pocket encoders using a cross-modal contrastive objective. This aligns the representation spaces so that molecules with high binding affinity are close to their target proteins in embedding space, enabling similarity-based screening.</p>
+</div>
+</div>
+</section>
+
+<section class="section">
+<h2 class="section-title">Key Contributions</h2>
+<p class="section-desc">Advancing the state of the art in AI-driven drug discovery through novel representation learning.</p>
+<div class="card-grid">
+<div class="card fade-up">
+<div class="card-icon">🔗</div>
+<h3>Contrastive Molecular Alignment</h3>
+<p>Novel cross-modal contrastive objective that jointly trains SMILES and graph-based molecular encoders with protein pocket representations. Unlike prior approaches, DrugCLIP aligns both molecular modalities simultaneously for richer representations.</p>
+</div>
+<div class="card fade-up">
+<div class="card-icon">📊</div>
+<h3>Comprehensive Benchmark Suite</h3>
+<p>Standardized evaluation across 14 datasets spanning ADMET properties, binding affinity, toxicity, and activity prediction with unified metrics and protocols. First truly comprehensive comparison of molecular contrastive learning methods.</p>
+</div>
+<div class="card fade-up">
+<div class="card-icon">🧬</div>
+<h3>Multi-Scale Molecular Features</h3>
+<p>Hierarchical representation capturing atom-level, fragment-level, and global molecular semantics through a novel graph transformer architecture. This multi-scale approach captures both local chemical patterns and global molecular properties.</p>
+</div>
+<div class="card fade-up">
+<div class="card-icon">⚡</div>
+<h3>Zero-Shot Transfer Learning</h3>
+<p>Pre-trained representations transfer effectively to unseen protein targets without fine-tuning, enabling rapid screening of novel therapeutic areas where limited training data is available.</p>
+</div>
+<div class="card fade-up">
+<div class="card-icon">🎯</div>
+<h3>Binding Affinity Prediction</h3>
+<p>Direct prediction of binding affinities from contrastive embeddings, rivaling physics-based docking methods at 50x lower computational cost. Enables screening of ultra-large virtual libraries in real time.</p>
+</div>
+<div class="card fade-up">
+<div class="card-icon">🔄</div>
+<h3>Active Learning Pipeline</h3>
+<p>Integrated uncertainty-aware active learning loop that iteratively selects the most informative molecules for wet-lab validation, reducing experimental cycles and accelerating the drug discovery feedback loop.</p>
+</div>
+</div>
+</section>
+
+<section class="section">
+<h2 class="section-title">Technology Stack</h2>
+<p class="section-desc">Cutting-edge deep learning infrastructure optimized for molecular and protein representation learning.</p>
+<div class="card-grid">
+<div class="card fade-up">
+<div class="card-icon">🧠</div>
+<h3>Deep Learning</h3>
+<p>PyTorch + PyTorch Geometric for graph neural networks, ESM-2 protein language model for protein representations, SMILES Transformer for molecular sequence encoding, and custom contrastive loss implementations.</p>
+</div>
+<div class="card fade-up">
+<div class="card-icon">🔗</div>
+<h3>Molecular Tools</h3>
+<p>RDKit for molecular feature extraction and cheminformatics, MoleculeNet benchmark suite for standardized evaluation, ChEMBL and ZINC databases for training data, and OpenBabel for molecular format conversion.</p>
+</div>
+<div class="card fade-up">
+<div class="card-icon">🏗️</div>
+<h3>Infrastructure</h3>
+<p>Multi-GPU training with distributed data parallel, WandB for experiment tracking and hyperparameter optimization, Docker for reproducible environments, and Hugging Face Hub for model distribution.</p>
+</div>
+</div>
+</section>
+
+<section class="section">
+<h2 class="section-title">Development Roadmap</h2>
+<p class="section-desc">From research paper to production-ready drug discovery platform.</p>
+<div class="card-grid">
+<div class="card fade-up">
+<div class="card-icon">✅</div>
+<h3>Phase 1 — Research (Complete)</h3>
+<p>Novel contrastive learning framework design, training on 8.3M molecules, evaluation across 14 benchmark datasets, state-of-the-art results on MoleculeNet, and arXiv paper publication with open-source code.</p>
+</div>
+<div class="card fade-up">
+<div class="card-icon">🔄</div>
+<h3>Phase 2 — Scaling (In Progress)</h3>
+<p>Scaling to 100M+ molecule training set, incorporating 3D molecular conformations, protein structure integration with AlphaFold predictions, and improved zero-shot generalization through protein family-aware training.</p>
+</div>
+<div class="card fade-up">
+<div class="card-icon">📋</div>
+<h3>Phase 3 — Platform (Q2 2027)</h3>
+<p>GPU-accelerated screening API for production use, interactive web interface for non-technical researchers, integration with experimental design platforms, and automated active learning workflows for wet-lab validation.</p>
+</div>
+<div class="card fade-up">
+<div class="card-icon">🚀</div>
+<h3>Phase 4 — Ecosystem (2027)</h3>
+<p>Integration with PharmaSim for market analysis, DrugMind for target identification, and Harmes-Agent for safety profiling. Collaborative model training with pharmaceutical partners under federated learning framework.</p>
+</div>
+</div>
+</section>
+
+<footer class="footer">
+<div class="footer-links">
+<a href="https://mokangmedical.github.io/opc-homepage/">OPC Home</a>
+<a href="index.html">Home</a>
+<a href="https://github.com/drugclip-paper/drugclip-paper">GitHub</a>
+<a href="https://mokangmedical.github.io/Harmes-Agent/">Harmes-Agent</a>
+<a href="https://mokangmedical.github.io/biostats-/">BioStatS</a>
+</div>
+<p>&copy; 2025 drugclip-paper. Part of the OPC Ecosystem.</p>
+</footer>
+</body>
+</html>

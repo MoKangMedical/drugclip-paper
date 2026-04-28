@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Features | DrugCLIP - Contrastive Learning for Virtual Drug Screening</title>
+    <meta name="description" content="Explore DrugCLIP's contributions: contrastive molecular learning, cross-modal alignment, benchmark suite, zero-shot screening, and interpretable predictions.">
+    <meta property="og:title" content="Features - DrugCLIP Contrastive Drug Screening">
+    <meta property="og:description" content="Contrastive learning framework for virtual drug screening with comprehensive benchmark suite.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mokangmedical.github.io/drugclip-paper/features.html">
+    <meta property="og:image" content="https://mokangmedical.github.io/drugclip-paper/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Features - DrugCLIP">
+    <meta name="twitter:description" content="Contrastive learning framework contributions and methodology.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💊</text></svg>">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --bg: #0a0a0f; --card: #12121a; --border: #1e1e2e; --primary: #6366f1; --accent: #22d3ee; --text: #e2e8f0; --text-muted: #94a3b8; --gradient: linear-gradient(135deg, #6366f1 0%, #22d3ee 100%); }
+        html { scroll-behavior: smooth; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+        a { color: inherit; text-decoration: none; }
+        .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(10,10,15,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+        .nav-logo { display: flex; align-items: center; gap: 10px; font-size: 1.2rem; font-weight: 700; }
+        .nav-logo span { background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--text-muted); font-size: 0.9rem; transition: color 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+        .nav-cta { background: var(--gradient); color: #fff; padding: 0.5rem 1.25rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; }
+        section { padding: 5rem 2rem; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .section-label { text-transform: uppercase; font-size: 0.8rem; font-weight: 700; letter-spacing: 3px; color: var(--accent); margin-bottom: 0.75rem; }
+        .section-title { font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 800; margin-bottom: 1rem; }
+        .section-desc { color: var(--text-muted); max-width: 600px; margin-bottom: 3rem; font-size: 1.1rem; }
+        .section-header-center { text-align: center; }
+        .section-header-center .section-desc { margin-left: auto; margin-right: auto; }
+        .btn-primary { background: var(--gradient); color: #fff; padding: 0.85rem 2rem; border-radius: 10px; font-size: 1rem; font-weight: 600; transition: transform 0.3s, box-shadow 0.3s; display: inline-flex; align-items: center; gap: 0.5rem; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(99,102,241,0.4); }
+        .btn-secondary { background: rgba(255,255,255,0.05); color: var(--text); padding: 0.85rem 2rem; border: 1px solid var(--border); border-radius: 10px; font-size: 1rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem; }
+        .btn-secondary:hover { border-color: var(--primary); }
+        .hero-small { padding: 8rem 2rem 3rem; text-align: center; position: relative; }
+        .hero-small::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at 30% 35%, rgba(99,102,241,0.15) 0%, transparent 50%), radial-gradient(ellipse at 70% 65%, rgba(34,211,238,0.1) 0%, transparent 50%); pointer-events: none; }
+        .hero-small h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; margin-bottom: 1rem; background: linear-gradient(135deg, #fff 0%, #6366f1 50%, #22d3ee 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; position: relative; }
+        .hero-small p { font-size: 1.15rem; color: var(--text-muted); max-width: 650px; margin: 0 auto; position: relative; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; }
+        .feature-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; transition: transform 0.3s, border-color 0.3s; }
+        .feature-card:hover { transform: translateY(-4px); border-color: var(--primary); }
+        .feature-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+        .feature-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .feature-card p { color: var(--text-muted); font-size: 0.95rem; }
+        .feature-detail { margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--border); }
+        .feature-detail ul { list-style: none; }
+        .feature-detail li { padding: 0.25rem 0; font-size: 0.85rem; color: var(--text-muted); }
+        .feature-detail li::before { content: '→ '; color: var(--accent); }
+        .comparison-table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 16px; overflow: hidden; border: 1px solid var(--border); }
+        .comparison-table th, .comparison-table td { padding: 1rem 1.5rem; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
+        .comparison-table th { background: rgba(99,102,241,0.1); font-weight: 700; color: var(--accent); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+        .comparison-table tr:last-child td { border-bottom: none; }
+        .comparison-table td:first-child { font-weight: 600; }
+        .check { color: var(--accent); }
+        .cross { color: #ef4444; opacity: 0.6; }
+        .specs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+        .spec-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; }
+        .spec-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; }
+        .spec-item { display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+        .spec-item:last-child { border-bottom: none; }
+        .spec-item span:last-child { color: var(--text-muted); }
+        .integration-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; }
+        .integration-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; text-align: center; transition: border-color 0.3s; }
+        .integration-card:hover { border-color: var(--primary); }
+        .integration-card .icon { font-size: 2rem; margin-bottom: 0.75rem; }
+        .integration-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .integration-card p { color: var(--text-muted); font-size: 0.85rem; }
+        .paper-citation { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; margin-top: 2rem; font-family: 'Courier New', monospace; font-size: 0.9rem; color: var(--text-muted); line-height: 1.8; }
+        .cta-section { text-align: center; background: linear-gradient(180deg, var(--card) 0%, var(--bg) 100%); border-top: 1px solid var(--border); }
+        .cta-section h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; margin-bottom: 1rem; }
+        .cta-section p { color: var(--text-muted); font-size: 1.15rem; max-width: 600px; margin: 0 auto 2.5rem; }
+        footer { border-top: 1px solid var(--border); padding: 3rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; }
+        .footer-links { display: flex; gap: 2rem; flex-wrap: wrap; }
+        .footer-links a { color: var(--text-muted); font-size: 0.9rem; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--accent); }
+        .footer-copy { color: var(--text-muted); font-size: 0.85rem; }
+        .overflow-x { overflow-x: auto; }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .features-grid, .specs-grid, .integration-grid { grid-template-columns: 1fr; }
+            section { padding: 3rem 1.5rem; }
+            .hero-small { padding: 7rem 1.5rem 2rem; }
+            footer { flex-direction: column; text-align: center; }
+            .comparison-table th, .comparison-table td { padding: 0.75rem; font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <a href="https://mokangmedical.github.io/opc-homepage/" class="nav-logo">💊 <span>MoKangMedical</span></a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="features.html" class="active">Contributions</a></li>
+            <li><a href="demo.html">Demo</a></li>
+            <li><a href="pricing.html">Access</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <a href="pricing.html" class="nav-cta">Get Access</a>
+    </nav>
+
+    <section class="hero-small">
+        <h1>💊 DrugCLIP Contributions</h1>
+        <p>A contrastive learning framework for virtual drug screening with state-of-the-art performance on molecular property prediction benchmarks.</p>
+    </section>
+
+    <section id="features">
+        <div class="container">
+            <div class="section-header-center">
+                <div class="section-label">Key Contributions</div>
+                <h2 class="section-title">Research Contributions & Methods</h2>
+                <p class="section-desc">DrugCLIP introduces novel approaches to molecular representation learning and virtual drug screening.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔗</div>
+                    <h3>Contrastive Molecular Learning</h3>
+                    <p>Novel contrastive learning objective that jointly learns molecular representations from SMILES strings and 2D/3D molecular graphs, aligning chemical structure with biological activity.</p>
+                    <div class="feature-detail"><ul><li>CLIP-inspired molecular pre-training</li><li>Multi-modal molecular encoder</li><li>InfoNCE loss with molecular augmentations</li></ul></div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Cross-Modal Alignment</h3>
+                    <p>Aligns molecular embeddings with protein target embeddings in a shared latent space, enabling zero-shot virtual screening against novel targets without task-specific fine-tuning.</p>
+                    <div class="feature-detail"><ul><li>Protein-language model integration</li><li>Shared embedding space (512-dim)</li><li>Cosine similarity scoring</li></ul></div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Comprehensive Benchmark Suite</h3>
+                    <p>DrugCLIP Benchmark — a standardized evaluation suite spanning 15 molecular property prediction datasets covering ADMET, toxicity, binding affinity, and activity prediction tasks.</p>
+                    <div class="feature-detail"><ul><li>15 standardized benchmark datasets</li><li>Consistent evaluation protocol</li><li>Leaderboard with reproducible results</li></ul></div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🧪</div>
+                    <h3>Molecular Augmentation Strategy</h3>
+                    <p>Domain-specific augmentation techniques for molecular contrastive learning including SMILES enumeration, subgraph masking, bond deletion, and 3D conformer perturbation.</p>
+                    <div class="feature-detail"><ul><li>SMILES canonical augmentation</li><li>Graph-level structural perturbation</li><li>3D spatial augmentation</li></ul></div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Zero-Shot Virtual Screening</h3>
+                    <p>Screen millions of compounds against novel protein targets without any activity data for that target — leveraging the learned cross-modal alignment.</p>
+                    <div class="feature-detail"><ul><li>No target-specific training data needed</li><li>Screen 10M+ compounds in minutes</li><li>Hit rate improvement of 3-5x over random</li></ul></div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <h3>Interpretable Predictions</h3>
+                    <p>Attention-based interpretability that highlights which molecular substructures and protein residues drive the predicted binding, providing mechanistic insights.</p>
+                    <div class="feature-detail"><ul><li>Atom-level attention visualization</li><li>Binding site residue highlighting</li><li>Substructure contribution scoring</li></ul></div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📈</div>
+                    <h3>SOTA Benchmark Performance</h3>
+                    <p>Achieves state-of-the-art or competitive results on 12 of 15 benchmarks, with significant improvements on binding affinity prediction (MUV, DUD-E) and ADMET tasks.</p>
+                    <div class="feature-detail"><ul><li>SOTA on MUV, DUD-E, Tox21</li><li>Competitive on all ADMET endpoints</li><li>Consistent cross-benchmark improvement</li></ul></div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚙️</div>
+                    <h3>Scalable Architecture</h3>
+                    <p>Efficient transformer-based architecture with linear attention that scales to large molecular libraries while maintaining inference speed suitable for high-throughput screening.</p>
+                    <div class="feature-detail"><ul><li>Linear attention complexity O(n)</li><li>Batch inference on GPU clusters</li><li>ONNX export for deployment</li></ul></div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Transfer Learning Framework</h3>
+                    <p>Pre-trained DrugCLIP representations transfer effectively to downstream tasks with minimal fine-tuning, reducing labeled data requirements by 10x.</p>
+                    <div class="feature-detail"><ul><li>Few-shot learning capability</li><li>Frozen encoder + lightweight head</li><li>10x less labeled data needed</li></ul></div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3>Open-Source Ecosystem</h3>
+                    <p>Complete codebase, pre-trained models, benchmark data, and evaluation scripts released for reproducibility and community adoption.</p>
+                    <div class="feature-detail"><ul><li>PyTorch + HuggingFace integration</li><li>Pre-trained checkpoints available</li><li>Jupyter notebook tutorials</li></ul></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="section-header-center">
+                <div class="section-label">Benchmark Results</div>
+                <h2 class="section-title">DrugCLIP vs. Existing Methods</h2>
+                <p class="section-desc">Performance comparison on key molecular property prediction benchmarks.</p>
+            </div>
+            <div class="overflow-x">
+                <table class="comparison-table">
+                    <thead><tr><th>Benchmark</th><th>DrugCLIP</th><th>ChemBERTa</th><th>MolBERT</th><th>GraphMVP</th><th>Random Forest</th></tr></thead>
+                    <tbody>
+                        <tr><td>MUV (AUROC)</td><td class="check">0.892</td><td>0.841</td><td>0.828</td><td>0.855</td><td>0.712</td></tr>
+                        <tr><td>DUD-E (AUROC)</td><td class="check">0.967</td><td>0.931</td><td>0.918</td><td>0.945</td><td>0.856</td></tr>
+                        <tr><td>Tox21 (AUROC)</td><td class="check">0.854</td><td>0.832</td><td>0.819</td><td>0.838</td><td>0.765</td></tr>
+                        <tr><td>BBBP (AUROC)</td><td class="check">0.941</td><td>0.928</td><td>0.915</td><td>0.932</td><td>0.879</td></tr>
+                        <tr><td>ESOL (RMSE↓)</td><td class="check">0.58</td><td>0.72</td><td>0.78</td><td>0.65</td><td>1.02</td></tr>
+                        <tr><td>Lipophilicity (RMSE↓)</td><td class="check">0.55</td><td>0.63</td><td>0.69</td><td>0.60</td><td>0.88</td></tr>
+                        <tr><td>ClinTox (AUROC)</td><td class="check">0.958</td><td>0.923</td><td>0.908</td><td>0.941</td><td>0.834</td></tr>
+                        <tr><td>Zero-Shot Hit Rate</td><td class="check">12.3%</td><td class="cross">N/A</td><td class="cross">N/A</td><td>4.1%</td><td class="cross">N/A</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="section-header-center">
+                <div class="section-label">Technical Specs</div>
+                <h2 class="section-title">Model Architecture</h2>
+                <p class="section-desc">Technical details of the DrugCLIP framework and training methodology.</p>
+            </div>
+            <div class="specs-grid">
+                <div class="spec-card">
+                    <h3>Model Architecture</h3>
+                    <div class="spec-item"><span>Molecular Encoder</span><span>Graph Transformer (12L)</span></div>
+                    <div class="spec-item"><span>Protein Encoder</span><span>ESM-2 (8L frozen)</span></div>
+                    <div class="spec-item"><span>Embedding Dimension</span><span>512</span></div>
+                    <div class="spec-item"><span>Attention Heads</span><span>8</span></div>
+                    <div class="spec-item"><span>Total Parameters</span><span>48M</span></div>
+                </div>
+                <div class="spec-card">
+                    <h3>Training</h3>
+                    <div class="spec-item"><span>Pre-training Data</span><span>2M molecules, 500K proteins</span></div>
+                    <div class="spec-item"><span>Contrastive Pairs</span><span>10M positive pairs</span></div>
+                    <div class="spec-item"><span>Batch Size</span><span>2048</span></div>
+                    <div class="spec-item"><span>Training Time</span><span>72h on 8×A100</span></div>
+                    <div class="spec-item"><span>Optimizer</span><span>AdamW (lr=1e-4)</span></div>
+                </div>
+                <div class="spec-card">
+                    <h3>Inference</h3>
+                    <div class="spec-item"><span>Single Molecule</span><span>0.8ms</span></div>
+                    <div class="spec-item"><span>Batch (10K molecules)</span><span>1.2s</span></div>
+                    <div class="spec-item"><span>Library Screen (1M)</span><span>~2 min (A100)</span></div>
+                    <div class="spec-item"><span>Memory (inference)</span><span>2GB GPU</span></div>
+                    <div class="spec-item"><span>Export Formats</span><span>PyTorch, ONNX, TorchScript</span></div>
+                </div>
+                <div class="spec-card">
+                    <h3>Benchmarks</h3>
+                    <div class="spec-item"><span>Datasets</span><span>15 standardized</span></div>
+                    <div class="spec-item"><span>Tasks</span><span>Classification + Regression</span></div>
+                    <div class="spec-item"><span>Evaluation</span><span>5-fold CV + scaffold split</span></div>
+                    <div class="spec-item"><span>Metrics</span><span>AUROC, AUPRC, RMSE, R²</span></div>
+                    <div class="spec-item"><span>Reproducibility</span><span>Seed-controlled, Docker</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="section-header-center">
+                <div class="section-label">Integration</div>
+                <h2 class="section-title">Research Ecosystem Integration</h2>
+                <p class="section-desc">DrugCLIP integrates with popular cheminformatics and ML frameworks.</p>
+            </div>
+            <div class="integration-grid">
+                <div class="integration-card"><div class="icon">🧬</div><h4>RDKit</h4><p>Direct molecular processing with RDKit for SMILES parsing, fingerprinting, and visualization</p></div>
+                <div class="integration-card"><div class="icon">🤗</div><h4>HuggingFace</h4><p>Model hub hosting with auto-download, tokenizer integration, and pipeline API</p></div>
+                <div class="integration-card"><div class="icon">🔬</div><h4>PyMOL / ChimeraX</h4><p>Export binding predictions for 3D visualization in molecular viewers</p></div>
+                <div class="integration-card"><div class="icon">📊</div><h4>DeepChem</h4><p>Integration with DeepChem's molecule featurizers and benchmark loaders</p></div>
+                <div class="integration-card"><div class="icon">⚡</div><h4>PyTorch Lightning</h4><p>Training and fine-tuning with reproducible experiment tracking</p></div>
+                <div class="integration-card"><div class="icon">🐳</div><h4>Docker / Singularity</h4><p>Containerized environments for reproducible inference and evaluation</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="paper-citation">
+                @article{drugclip2025,<br>
+                &nbsp;&nbsp;title={DrugCLIP: Contrastive Learning for Virtual Drug Screening},<br>
+                &nbsp;&nbsp;author={MoKangMedical Research Team},<br>
+                &nbsp;&nbsp;journal={arXiv preprint},<br>
+                &nbsp;&nbsp;year={2025}<br>
+                }
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>Explore the DrugCLIP Framework</h2>
+            <p>Access the model, benchmark suite, and codebase to bring AI-powered virtual screening into your research.</p>
+            <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+                <a href="demo.html" class="btn-primary">🚀 Try Interactive Demo</a>
+                <a href="https://github.com/MoKangMedical/drugclip-paper" class="btn-secondary">💻 Explore on GitHub</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-copy">© 2025 MoKangMedical OPC Ecosystem. All rights reserved.</div>
+        <div class="footer-links">
+            <a href="https://mokangmedical.github.io/opc-homepage/">OPC Home</a>
+            <a href="https://mokangmedical.github.io/Harmes-Agent/">Harmes-Agent</a>
+            <a href="https://mokangmedical.github.io/LabMind--/">LabMind</a>
+            <a href="https://mokangmedical.github.io/MediGuard--/">MediGuard</a>
+            <a href="https://mokangmedical.github.io/medivisual-artist--/">MediVisual Artist</a>
+            <a href="https://github.com/MoKangMedical/drugclip-paper">GitHub</a>
+        </div>
+    </footer>
+</body>
+</html>

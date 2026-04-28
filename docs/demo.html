@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo | DrugCLIP - Contrastive Learning for Virtual Drug Screening</title>
+    <meta name="description" content="Try the DrugCLIP interactive demo. Experience molecular embedding visualization, zero-shot virtual screening, and binding affinity prediction.">
+    <meta property="og:title" content="Interactive Demo - DrugCLIP">
+    <meta property="og:description" content="Experience contrastive molecular learning and virtual drug screening in action.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mokangmedical.github.io/drugclip-paper/demo.html">
+    <meta property="og:image" content="https://mokangmedical.github.io/drugclip-paper/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Interactive Demo - DrugCLIP">
+    <meta name="twitter:description" content="Molecular embedding and virtual screening demo.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💊</text></svg>">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --bg: #0a0a0f; --card: #12121a; --border: #1e1e2e; --primary: #6366f1; --accent: #22d3ee; --text: #e2e8f0; --text-muted: #94a3b8; --gradient: linear-gradient(135deg, #6366f1 0%, #22d3ee 100%); --danger: #ef4444; --warning: #f59e0b; --success: #10b981; }
+        html { scroll-behavior: smooth; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+        a { color: inherit; text-decoration: none; }
+        .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(10,10,15,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+        .nav-logo { display: flex; align-items: center; gap: 10px; font-size: 1.2rem; font-weight: 700; }
+        .nav-logo span { background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--text-muted); font-size: 0.9rem; transition: color 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+        .nav-cta { background: var(--gradient); color: #fff; padding: 0.5rem 1.25rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; }
+        section { padding: 5rem 2rem; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .section-label { text-transform: uppercase; font-size: 0.8rem; font-weight: 700; letter-spacing: 3px; color: var(--accent); margin-bottom: 0.75rem; }
+        .section-title { font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 800; margin-bottom: 1rem; }
+        .section-desc { color: var(--text-muted); max-width: 600px; margin-bottom: 3rem; font-size: 1.1rem; }
+        .section-header-center { text-align: center; }
+        .section-header-center .section-desc { margin-left: auto; margin-right: auto; }
+        .btn-primary { background: var(--gradient); color: #fff; padding: 0.85rem 2rem; border-radius: 10px; font-size: 1rem; font-weight: 600; transition: transform 0.3s, box-shadow 0.3s; display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer; border: none; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(99,102,241,0.4); }
+        .btn-secondary { background: rgba(255,255,255,0.05); color: var(--text); padding: 0.85rem 2rem; border: 1px solid var(--border); border-radius: 10px; font-size: 1rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer; }
+        .btn-secondary:hover { border-color: var(--primary); }
+        .hero-small { padding: 8rem 2rem 3rem; text-align: center; position: relative; }
+        .hero-small::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at 30% 35%, rgba(99,102,241,0.15) 0%, transparent 50%), radial-gradient(ellipse at 70% 65%, rgba(34,211,238,0.1) 0%, transparent 50%); pointer-events: none; }
+        .hero-small h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; margin-bottom: 1rem; background: linear-gradient(135deg, #fff 0%, #6366f1 50%, #22d3ee 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; position: relative; }
+        .hero-small p { font-size: 1.15rem; color: var(--text-muted); max-width: 650px; margin: 0 auto; position: relative; }
+        .demo-container { background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+        .demo-toolbar { background: rgba(99,102,241,0.08); border-bottom: 1px solid var(--border); padding: 1rem 1.5rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+        .demo-toolbar .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .demo-toolbar .dot-red { background: #ef4444; }
+        .demo-toolbar .dot-yellow { background: #f59e0b; }
+        .demo-toolbar .dot-green { background: #10b981; }
+        .demo-toolbar .title { font-weight: 600; font-size: 0.9rem; margin-left: 0.5rem; }
+        .demo-body { padding: 1.5rem; }
+        .demo-tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+        .demo-tab { padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.85rem; cursor: pointer; background: rgba(255,255,255,0.03); border: 1px solid var(--border); transition: all 0.3s; }
+        .demo-tab.active { background: rgba(99,102,241,0.15); border-color: var(--primary); color: var(--accent); }
+        .screening-demo { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+        .input-panel { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; }
+        .input-panel h4 { font-size: 0.85rem; color: var(--accent); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 1px; }
+        .input-group { margin-bottom: 1rem; }
+        .input-group label { display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+        .input-group input, .input-group select, .input-group textarea { width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.6rem 0.75rem; color: var(--text); font-size: 0.85rem; font-family: 'Courier New', monospace; }
+        .input-group textarea { min-height: 80px; resize: vertical; }
+        .input-group input:focus, .input-group textarea:focus { outline: none; border-color: var(--primary); }
+        .run-btn { background: var(--gradient); color: #fff; padding: 0.6rem 1.5rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; border: none; cursor: pointer; transition: opacity 0.3s; }
+        .run-btn:hover { opacity: 0.9; }
+        .results-panel { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; }
+        .results-panel h4 { font-size: 0.85rem; color: var(--accent); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 1px; }
+        .result-item { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem; margin-bottom: 0.75rem; }
+        .result-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+        .result-mol { font-family: 'Courier New', monospace; font-size: 0.8rem; font-weight: 600; }
+        .result-score { font-size: 0.8rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 20px; }
+        .score-high { background: rgba(16,185,129,0.15); color: var(--success); }
+        .score-med { background: rgba(245,158,11,0.15); color: var(--warning); }
+        .score-low { background: rgba(239,68,68,0.15); color: var(--danger); }
+        .result-detail { font-size: 0.75rem; color: var(--text-muted); }
+        .attention-viz { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; }
+        .attention-viz h4 { font-size: 0.85rem; color: var(--accent); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 1px; }
+        .smile-display { font-family: 'Courier New', monospace; font-size: 1.2rem; letter-spacing: 2px; margin-bottom: 1rem; word-break: break-all; line-height: 2; }
+        .smile-display .char { padding: 0.1rem 0.2rem; border-radius: 3px; display: inline-block; }
+        .stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+        .stat-box { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 10px; padding: 1rem; text-align: center; }
+        .stat-box .val { font-size: 1.5rem; font-weight: 800; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .stat-box .label { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem; }
+        .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
+        .step-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; position: relative; }
+        .step-number { position: absolute; top: -12px; left: 20px; background: var(--gradient); color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; }
+        .step-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .step-card p { color: var(--text-muted); font-size: 0.9rem; }
+        .mockup-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+        .mockup-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+        .mockup-header { background: rgba(99,102,241,0.08); padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); font-size: 0.8rem; font-weight: 600; color: var(--accent); }
+        .mockup-body { padding: 2rem; min-height: 200px; display: flex; align-items: center; justify-content: center; }
+        .mockup-placeholder { width: 100%; height: 180px; background: linear-gradient(135deg, rgba(99,102,241,0.1) 0%, rgba(34,211,238,0.1) 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 3rem; }
+        .cta-section { text-align: center; background: linear-gradient(180deg, var(--card) 0%, var(--bg) 100%); border-top: 1px solid var(--border); }
+        .cta-section h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; margin-bottom: 1rem; }
+        .cta-section p { color: var(--text-muted); font-size: 1.15rem; max-width: 600px; margin: 0 auto 2.5rem; }
+        footer { border-top: 1px solid var(--border); padding: 3rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; }
+        .footer-links { display: flex; gap: 2rem; flex-wrap: wrap; }
+        .footer-links a { color: var(--text-muted); font-size: 0.9rem; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--accent); }
+        .footer-copy { color: var(--text-muted); font-size: 0.85rem; }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .screening-demo { grid-template-columns: 1fr; }
+            section { padding: 3rem 1.5rem; }
+            .hero-small { padding: 7rem 1.5rem 2rem; }
+            footer { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <a href="https://mokangmedical.github.io/opc-homepage/" class="nav-logo">💊 <span>MoKangMedical</span></a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="features.html">Contributions</a></li>
+            <li><a href="demo.html" class="active">Demo</a></li>
+            <li><a href="pricing.html">Access</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <a href="pricing.html" class="nav-cta">Get Access</a>
+    </nav>
+
+    <section class="hero-small">
+        <h1>💊 Interactive Demo</h1>
+        <p>Experience DrugCLIP's contrastive molecular learning in action — encode molecules, perform zero-shot virtual screening, and visualize attention patterns.</p>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="stat-row">
+                <div class="stat-box"><div class="val">15</div><div class="label">Benchmarks</div></div>
+                <div class="stat-box"><div class="val">SOTA</div><div class="label">12 of 15</div></div>
+                <div class="stat-box"><div class="val">0.8ms</div><div class="label">Inference/Mol</div></div>
+                <div class="stat-box"><div class="val">12.3%</div><div class="label">Zero-Shot Hit Rate</div></div>
+            </div>
+
+            <div class="demo-container">
+                <div class="demo-toolbar">
+                    <span class="dot dot-red"></span>
+                    <span class="dot dot-yellow"></span>
+                    <span class="dot dot-green"></span>
+                    <span class="title">DrugCLIP — Virtual Screening Playground (Demo)</span>
+                </div>
+                <div class="demo-body">
+                    <div class="demo-tabs">
+                        <div class="demo-tab active">🔬 Virtual Screening</div>
+                        <div class="demo-tab">🧬 Molecular Embedding</div>
+                        <div class="demo-tab">📊 Benchmark Results</div>
+                        <div class="demo-tab">🔍 Attention Maps</div>
+                    </div>
+
+                    <div class="screening-demo">
+                        <div class="input-panel">
+                            <h4>🎯 Target Protein</h4>
+                            <div class="input-group">
+                                <label>Protein Target</label>
+                                <select>
+                                    <option>EGFR (Epidermal Growth Factor Receptor)</option>
+                                    <option>BRAF V600E</option>
+                                    <option>CDK4/6</option>
+                                    <option>PD-L1</option>
+                                    <option>KRAS G12C</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label>Protein Sequence (truncated)</label>
+                                <textarea readonly>MRPSGTAGAALLALLAALCPASRALEEKKVCQGTSNKLTQLGTFEDHFLSLQRMFNNCEVVLGNLEITYVQRNYDLSFLKTIQEVAGYVLIALNTVERIPLENLQIIR...</textarea>
+                            </div>
+                            <h4 style="margin-top:1rem">💊 Query Molecules</h4>
+                            <div class="input-group">
+                                <label>SMILES (one per line)</label>
+                                <textarea>CC(=O)Oc1ccccc1C(=O)O
+CC12CCC3C(CCC4CC(=O)CCC34C)C1CCC2O
+CN1C=NC2=C1C(=O)N(C(=O)N2C)C
+CC(=O)Nc1ccc(O)cc1
+c1ccc2c(c1)[nH]c1ccccc12</textarea>
+                            </div>
+                            <button class="run-btn" onclick="runScreening()">🚀 Run Virtual Screening</button>
+                        </div>
+                        <div class="results-panel">
+                            <h4>📊 Screening Results</h4>
+                            <div id="screening-results">
+                                <div class="result-item">
+                                    <div class="result-header"><span class="result-mol">Aspirin</span><span class="result-score score-low">Score: 0.31</span></div>
+                                    <div class="result-detail">CC(=O)Oc1ccccc1C(=O)O · Predicted: Weak binder · Top-12% of library</div>
+                                </div>
+                                <div class="result-item">
+                                    <div class="result-header"><span class="result-mol">Testosterone</span><span class="result-score score-med">Score: 0.58</span></div>
+                                    <div class="result-detail">CC12CCC3C(CCC4CC(=O)CCC34C)C1CCC2O · Predicted: Moderate binder · Top-8%</div>
+                                </div>
+                                <div class="result-item">
+                                    <div class="result-header"><span class="result-mol">Caffeine</span><span class="result-score score-low">Score: 0.22</span></div>
+                                    <div class="result-detail">CN1C=NC2=C1C(=O)N(C(=O)N2C)C · Predicted: Non-binder · Top-35%</div>
+                                </div>
+                                <div class="result-item">
+                                    <div class="result-header"><span class="result-mol">Acetaminophen</span><span class="result-score score-low">Score: 0.28</span></div>
+                                    <div class="result-detail">CC(=O)Nc1ccc(O)cc1 · Predicted: Weak binder · Top-18%</div>
+                                </div>
+                                <div class="result-item">
+                                    <div class="result-header"><span class="result-mol">Carbazole</span><span class="result-score score-med">Score: 0.62</span></div>
+                                    <div class="result-detail">c1ccc2c(c1)[nH]c1ccccc12 · Predicted: Moderate binder · Top-5%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="attention-viz">
+                        <h4>🔍 Attention Map — Caffeine against EGFR</h4>
+                        <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:1rem">Atom-level attention weights showing which molecular substructures contribute most to the binding prediction. Higher attention = darker color.</p>
+                        <div class="smile-display">
+                            <span class="char" style="background:rgba(99,102,241,0.1)">C</span><span class="char" style="background:rgba(99,102,241,0.15)">N</span><span class="char" style="background:rgba(99,102,241,0.4)">1</span><span class="char" style="background:rgba(99,102,241,0.1)">C</span><span class="char" style="background:rgba(99,102,241,0.1)">=</span><span class="char" style="background:rgba(99,102,241,0.2)">N</span><span class="char" style="background:rgba(99,102,241,0.5)">C</span><span class="char" style="background:rgba(99,102,241,0.7)">2</span><span class="char" style="background:rgba(99,102,241,0.6)">=</span><span class="char" style="background:rgba(99,102,241,0.8)">C</span><span class="char" style="background:rgba(99,102,241,0.9)">1</span><span class="char" style="background:rgba(99,102,241,0.4)">C</span><span class="char" style="background:rgba(99,102,241,0.2)">=</span><span class="char" style="background:rgba(99,102,241,0.3)">(</span><span class="char" style="background:rgba(99,102,241,0.5)">O</span><span class="char" style="background:rgba(99,102,241,0.3)">)</span><span class="char" style="background:rgba(99,102,241,0.15)">N</span><span class="char" style="background:rgba(99,102,241,0.1)">(</span><span class="char" style="background:rgba(99,102,241,0.2)">C</span><span class="char" style="background:rgba(99,102,241,0.1)">=</span><span class="char" style="background:rgba(99,102,241,0.15)">O</span><span class="char" style="background:rgba(99,102,241,0.1)">)</span><span class="char" style="background:rgba(99,102,241,0.15)">N</span><span class="char" style="background:rgba(99,102,241,0.3)">2</span><span class="char" style="background:rgba(99,102,241,0.1)">C</span><span class="char" style="background:rgba(99,102,241,0.1)">)</span><span class="char" style="background:rgba(99,102,241,0.1)">C</span>
+                        </div>
+                        <div style="display:flex;gap:1rem;align-items:center;font-size:0.75rem;color:var(--text-muted)">
+                            <span>Low Attention</span>
+                            <div style="height:12px;flex:1;border-radius:6px;background:linear-gradient(90deg,rgba(99,102,241,0.05),rgba(99,102,241,0.3),rgba(99,102,241,0.6),rgba(99,102,241,0.9))"></div>
+                            <span>High Attention</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="section-header-center">
+                <div class="section-label">Walkthrough</div>
+                <h2 class="section-title">How DrugCLIP Works</h2>
+                <p class="section-desc">From molecular input to binding prediction in milliseconds.</p>
+            </div>
+            <div class="steps-grid">
+                <div class="step-card"><div class="step-number">1</div><h3>Molecular Encoding</h3><p>SMILES strings and molecular graphs are processed through the Graph Transformer encoder to produce 512-dimensional molecular embeddings.</p></div>
+                <div class="step-card"><div class="step-number">2</div><h3>Protein Encoding</h3><p>Target protein sequences are encoded using the frozen ESM-2 protein language model, producing aligned protein embeddings in the shared space.</p></div>
+                <div class="step-card"><div class="step-number">3</div><h3>Similarity Scoring</h3><p>Cosine similarity between molecular and protein embeddings yields binding affinity scores. Higher similarity = stronger predicted binding.</p></div>
+                <div class="step-card"><div class="step-number">4</div><h3>Interpretation</h3><p>Attention maps highlight which molecular substructures and protein residues drive the prediction, providing mechanistic insights for medicinal chemists.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="section-header-center">
+                <div class="section-label">Screenshots</div>
+                <h2 class="section-title">Platform Interface</h2>
+                <p class="section-desc">Tools for computational chemists, medicinal chemists, and drug discovery researchers.</p>
+            </div>
+            <div class="mockup-grid">
+                <div class="mockup-card"><div class="mockup-header">Virtual Screening Dashboard</div><div class="mockup-body"><div class="mockup-placeholder">🔬</div></div></div>
+                <div class="mockup-card"><div class="mockup-header">Molecular Embedding Space (t-SNE)</div><div class="mockup-body"><div class="mockup-placeholder">🧬</div></div></div>
+                <div class="mockup-card"><div class="mockup-header">Attention Map Visualizer</div><div class="mockup-body"><div class="mockup-placeholder">🔍</div></div></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready for Full Access?</h2>
+            <p>Get access to the complete DrugCLIP model, benchmark suite, and inference API for your research pipeline.</p>
+            <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+                <a href="contact.html" class="btn-primary">📅 Request Access</a>
+                <a href="https://github.com/MoKangMedical/drugclip-paper" class="btn-secondary">💻 Explore on GitHub</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-copy">© 2025 MoKangMedical OPC Ecosystem. All rights reserved.</div>
+        <div class="footer-links">
+            <a href="https://mokangmedical.github.io/opc-homepage/">OPC Home</a>
+            <a href="https://mokangmedical.github.io/Harmes-Agent/">Harmes-Agent</a>
+            <a href="https://mokangmedical.github.io/LabMind--/">LabMind</a>
+            <a href="https://mokangmedical.github.io/MediGuard--/">MediGuard</a>
+            <a href="https://mokangmedical.github.io/medivisual-artist--/">MediVisual Artist</a>
+            <a href="https://github.com/MoKangMedical/drugclip-paper">GitHub</a>
+        </div>
+    </footer>
+    <script>
+        function runScreening() {
+            const btn = document.querySelector('.run-btn');
+            btn.textContent = '⏳ Screening...';
+            btn.disabled = true;
+            setTimeout(() => {
+                const molecules = ['Aspirin','Testosterone','Caffeine','Acetaminophen','Carbazole','Ibuprofen','Metformin','Penicillin G'];
+                const smiles = ['CC(=O)Oc1ccccc1C(=O)O','CC12CCC3C(CCC4CC(=O)CCC34C)C1CCC2O','CN1C=NC2=C1C(=O)N(C(=O)N2C)C','CC(=O)Nc1ccc(O)cc1','c1ccc2c(c1)[nH]c1ccccc12','CC(C)Cc1ccc(cc1)C(C)C(=O)O','CN(C)C(=N)NC(=N)N','CC1(C)SC2C(NC(=O)Cc3ccccc3)C(=O)N2C1C(=O)O'];
+                const scores = [0.31,0.58,0.22,0.28,0.62,0.44,0.18,0.71];
+                const targets = ['EGFR','EGFR','EGFR','EGFR','EGFR','EGFR','EGFR','EGFR'];
+                const sorted = scores.map((s,i)=>({mol:molecules[i],smi:smiles[i],score:s,idx:i})).sort((a,b)=>b.score-a.score);
+                document.getElementById('screening-results').innerHTML = sorted.map(s => {
+                    const cls = s.score>0.6?'score-high':s.score>0.4?'score-med':'score-low';
+                    const pred = s.score>0.6?'Strong binder':s.score>0.4?'Moderate binder':s.score>0.25?'Weak binder':'Non-binder';
+                    const pct = Math.round((1-s.score)*100);
+                    return `<div class="result-item"><div class="result-header"><span class="result-mol">${s.mol}</span><span class="result-score ${cls}">Score: ${s.score.toFixed(2)}</span></div><div class="result-detail">${s.smi} · Predicted: ${pred} · Top-${pct}%</div></div>`;
+                }).join('');
+                btn.textContent = '🚀 Run Virtual Screening';
+                btn.disabled = false;
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
